@@ -1,0 +1,30 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 21-05-2026
+ * Version: 1.0 *@
+
+@model IEnumerable<CMS.Data.Entities.Post>
+
+<h2 class="text-primary">DANH SÁCH BÀI VIẾT</h2>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th> 
+            <th>Hình ảnh</th>
+            <th>Tiêu đề</th> 
+            <th>Danh mục</th>
+            <th>Ngày tạo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>@item.Id</td>
+                <td><img src="@item.ImageUrl" alt="img" width="50" height="50" style="object-fit:cover;" /></td>
+                <td><strong>@item.Title</strong></td>
+                <td>@(item.Category != null ? item.Category.Name : "Chưa có")</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

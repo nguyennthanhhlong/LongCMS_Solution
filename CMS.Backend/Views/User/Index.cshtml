@@ -1,0 +1,31 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 21-05-2026
+ * Version: 1.0 *@
+
+ 
+@model IEnumerable<CMS.Data.Entities.User>
+
+<h2 class="text-success">QUẢN LÝ THÀNH VIÊN</h2>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th> 
+            <th>Tài khoản</th> 
+            <th>Họ và Tên</th>
+            <th>Vai trò (Role)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Username</td>
+                <td>@item.FullName</td>
+                <td>
+                    <span class="badge bg-info text-dark">@item.Role</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
