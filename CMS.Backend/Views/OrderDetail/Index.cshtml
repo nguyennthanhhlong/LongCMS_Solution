@@ -1,0 +1,28 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 *@
+
+
+@model IEnumerable<CMS.Data.Entities.OrderDetail>
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Chi tiết đơn hàng"; }
+
+<div class="container mt-4">
+    <h2 class="text-dark fw-bold mb-4">CHI TIẾT CÁC ĐƠN HÀNG</h2>
+    <table class="table table-striped bg-white shadow-sm">
+        <thead class="table-dark">
+            <tr><th>Mã ĐH</th><th>Sản phẩm</th><th>Số lượng</th><th>Đơn giá lúc mua</th><th>Thành tiền</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td class="fw-bold text-danger">#@item.OrderId</td>
+                    <td class="fw-bold">@(item.Product != null ? item.Product.Name : "Sản phẩm đã xóa")</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice.ToString("N0") VNĐ</td>
+                    <td class="text-primary fw-bold">@((item.Quantity * item.UnitPrice).ToString("N0")) VNĐ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -51,12 +51,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnkvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/CategoryProduct/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnlQcm9kdWN0L0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/CategoryProduct/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnlQcm9kdWN0L0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/CategoryProduct/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnlQcm9kdWN0L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Customer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ3VzdG9tZXIvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Order/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/OrderDetail/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXJEZXRhaWwvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Post/Create.cshtml]
@@ -73,6 +97,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Post/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Product/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZHVjdC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/longnguyen/Workspace/ThanhLongCMS_Solution/CMS.Backend/Views/Shared/Error.cshtml]

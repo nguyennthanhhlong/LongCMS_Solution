@@ -1,0 +1,34 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.CategoryProduct
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Sửa Danh Mục Sản Phẩm"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> CẬP NHẬT DANH MỤC</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên danh mục:</label>
+                    <input asp-for="Name" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Mô tả chi tiết:</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <hr />
+                <button type="submit" class="btn btn-warning"><i class="bi bi-check2-circle"></i> Cập nhật thay đổi</button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

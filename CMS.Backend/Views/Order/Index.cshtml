@@ -1,0 +1,31 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 *@
+
+@model IEnumerable<CMS.Data.Entities.Order>
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Đơn hàng"; }
+
+<div class="container mt-4">
+    <h2 class="text-dark fw-bold mb-4">QUẢN LÝ ĐƠN HÀNG</h2>
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-dark">
+            <tr><th>Mã ĐH</th><th>Ngày đặt</th><th>Khách hàng</th><th>Trạng thái</th><th>Ghi chú</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td class="fw-bold text-danger">#@item.Id</td>
+                    <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@(item.Customer != null ? item.Customer.FullName : "N/A")</td>
+                    <td>
+                        @if(item.Status == 0) { <span class="badge bg-warning text-dark">Chờ duyệt</span> }
+                        else if(item.Status == 1) { <span class="badge bg-primary">Đang giao</span> }
+                        else { <span class="badge bg-success">Đã xong</span> }
+                    </td>
+                    <td>@item.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
