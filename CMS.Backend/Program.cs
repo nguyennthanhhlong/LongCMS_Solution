@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CMS.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Đăng ký dịch vụ xác thực bằng Cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Chuyển hướng về đây nếu chưa đăng nhập
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Chuyển hướng về đây nếu sai quyền (Role)
+    });
 
 var app = builder.Build();
 
@@ -21,6 +30,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseAuthentication(); // THÊM DÒNG NÀY (Xác thực)
 
 app.UseAuthorization();
 

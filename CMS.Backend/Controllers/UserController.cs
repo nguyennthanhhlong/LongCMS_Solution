@@ -1,7 +1,7 @@
 /*
  * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0
  */
 
@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CMS.Data.Entities;
 using CMS.Data;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq; // Thêm thư viện này để dùng hàm .Any() và .FirstOrDefault()
 
 namespace CMS.Backend.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;

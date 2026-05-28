@@ -31,6 +31,19 @@
                     <a asp-controller="Category" asp-action="Index"><i class="bi bi-grid me-2"></i> Quản lý Danh mục</a>
                     <a asp-controller="Post" asp-action="Index"><i class="bi bi-file-earmark-post me-2"></i> Quản lý Bài viết</a>
                     <a asp-controller="User" asp-action="Index"><i class="bi bi-people me-2"></i> Quản lý Thành viên</a>
+                    <div class="mt-auto p-3 w-100 position-absolute bottom-0 border-top border-secondary text-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="text-white mb-2 small">
+                                Xin chào,<br/> 
+                                <strong class="text-warning">@User.FindFirst("FullName")?.Value</strong>
+                                <br/>(@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)
+                            </div>
+                            <a class="btn btn-outline-danger btn-sm w-100" asp-controller="Account" asp-action="Logout">
+                                <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                            </a>
+                        }
+                    </div>
                     </div>
             </nav>
 

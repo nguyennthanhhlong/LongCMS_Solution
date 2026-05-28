@@ -9,9 +9,11 @@
 using Microsoft.AspNetCore.Mvc;
 using CMS.Data.Entities;
 using CMS.Data; // Thêm dòng này để gọi ApplicationDbContext
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Backend.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;

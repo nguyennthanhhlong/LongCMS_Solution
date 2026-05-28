@@ -11,9 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using CMS.Data; // Thư mục chứa DbContext
 using System.Diagnostics;
 using CMS.Backend.Models; // Dành cho ErrorViewModel mặc định
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Backend.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
