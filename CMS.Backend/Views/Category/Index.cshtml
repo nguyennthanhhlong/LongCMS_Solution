@@ -1,27 +1,42 @@
  @* * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0 *@
 
 
 @model IEnumerable<CMS.Data.Entities.Category>
 
-<h2 class="text-primary">DANH SÁCH DANH MỤC (DỮ LIỆU MẪU)</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th> 
-            <th>Tên danh mục</th> 
-            <th>Mô tả</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
+<div class="container mt-4">
+    <h2 class="text-primary">DANH SÁCH DANH MỤC</h2>
+    
+    <a asp-action="Create" class="btn btn-success mb-3">
+        + Thêm danh mục mới
+    </a>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th>Mô tả</th>
+                <th style="width:150px; text-align:center;">Thao tác</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" 
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

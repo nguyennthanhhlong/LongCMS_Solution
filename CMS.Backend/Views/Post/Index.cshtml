@@ -1,30 +1,27 @@
  @* * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0 *@
 
 @model IEnumerable<CMS.Data.Entities.Post>
 
-<h2 class="text-primary">DANH SÁCH BÀI VIẾT</h2>
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th> 
-            <th>Hình ảnh</th>
-            <th>Tiêu đề</th> 
-            <th>Danh mục</th>
-            <th>Ngày tạo</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>@item.Id</td>
-                <td><img src="@item.ImageUrl" alt="img" width="50" height="50" style="object-fit:cover;" /></td>
-                <td><strong>@item.Title</strong></td>
-                <td>@(item.Category != null ? item.Category.Name : "Chưa có")</td>
-                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-            </tr>
+<div class="container mt-4">
+    <h2 class="mb-4 text-danger">DANH SÁCH BÀI VIẾT MỚI NHẤT</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="Thumbnail" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <span class="badge bg-info text-dark mb-2">@(item.Category != null ? item.Category.Name : "Không rõ")</span>
+                        <h5 class="card-title text-primary">@item.Title</h5>
+                        <p class="card-text text-truncate">@item.Content</p>
+                        <p class="text-muted small">Ngày đăng: @item.CreatedDate.ToString("dd/MM/yyyy")</p>
+                        <a href="/Post/Details/@item.Id" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

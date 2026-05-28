@@ -1,0 +1,35 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 *@
+
+@model CMS.Data.Entities.Post
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-white">
+            <h2 class="text-primary mt-2">@Model.Title</h2>
+            
+            <span class="badge bg-info text-dark fs-6">
+                Chuyên mục: @(Model.Category != null ? Model.Category.Name : "Chưa phân loại")
+            </span>
+            <span class="text-muted ms-3 small">
+                Ngày đăng: @Model.CreatedDate.ToString("dd/MM/yyyy")
+            </span>
+        </div>
+        
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" />
+            </div>
+            
+            <div class="content text-justify" style="font-size: 1.1rem; line-height: 1.8;">
+                @Model.Content
+            </div>
+        </div>
+        
+        <div class="card-footer bg-white">
+            <a href="/Post" class="btn btn-secondary">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

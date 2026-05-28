@@ -1,7 +1,7 @@
 /*
  * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0
  */
 
@@ -22,12 +22,43 @@ namespace CMS.Backend.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET: /Post/Index hoặc /Post/Index/5
+        public IActionResult Index(int? id)
         {
-            // 💡 Mẹo nhỏ: Dùng .Include(p => p.Category) để lấy kèm thông tin Danh mục (tên danh mục)
-            // thay vì chỉ lấy được mỗi con số CategoryId.
-            var posts = _context.Posts.Include(p => p.Category).ToList();
+            // Nếu không có ID truyền vào, lấy tất cả bài viết
+            if (id == null)
+            {
+                var allPosts = _context.Posts
+                    .Include(p => p.Category)
+                    .OrderByDescending(p => p.CreatedDate)
+                    .ToList();
+                return View(allPosts);
+            }
+
+            // Nếu có ID, dùng LINQ để lọc và sắp xếp
+            var posts = _context.Posts
+                .Where(p => p.CategoryId == id)
+                .OrderByDescending(p => p.CreatedDate)
+                .Include(p => p.Category)
+                .ToList();
+
             return View(posts);
+        }
+
+        // GET: /Post/Details/5
+        public IActionResult Details(int id)
+        {
+            // Truy vấn bài viết theo ID, lấy kèm thông tin Danh mục
+            var post = _context.Posts
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (post == null)
+            {
+                return NotFound(); // Trả về lỗi 404 nếu không tìm thấy
+            }
+
+            return View(post);
         }
     }
 }

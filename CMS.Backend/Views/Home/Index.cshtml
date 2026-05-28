@@ -1,13 +1,39 @@
 ﻿ @* * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0 *@
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Nguyễn Thành Long</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IEnumerable<CMS.Data.Entities.Post>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-danger fw-bold">TIN TỨC MỚI NHẤT</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-0 bg-light">
+                    <img src="@item.ImageUrl" class="card-img-top rounded-top" alt="Thumbnail" style="height: 220px; object-fit: cover;">
+                    
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2 fs-6">
+                            @(item.Category != null ? item.Category.Name : "Khác")
+                        </span>
+                        <h5 class="card-title fw-bold text-dark mt-2">@item.Title</h5>
+                        <p class="card-text text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                            @item.Content
+                        </p>
+                        <a href="/Post/Details/@item.Id" class="btn btn-outline-danger btn-sm mt-2">Đọc tiếp -></a>
+                    </div>
+                    
+                    <div class="card-footer bg-transparent border-top-0 text-muted small pb-3 pt-0">
+                        <i class="bi bi-calendar3"></i> Ngày đăng: @item.CreatedDate.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

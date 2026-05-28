@@ -1,7 +1,7 @@
 /*
  * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
- * Ngay tao: 21-05-2026
+ * Ngay tao: 28-05-2026
  * Version: 1.0
  */
 
@@ -27,6 +27,50 @@ namespace CMS.Backend.Controllers
             // Lấy toàn bộ dữ liệu từ bảng Categories trong SQL Docker
             var data = _context.Categories.ToList();
             return View(data);
+        }
+
+        // ================= THÊM MỚI (CREATE) =================
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Category model)
+        {
+            _context.Categories.Add(model); // Bước 1: Đưa vào bộ nhớ tạm
+            _context.SaveChanges();         // Bước 2: Ghi xuống SQL
+            return RedirectToAction("Index");
+        }
+
+        // ================= XÓA (DELETE) =================
+        public IActionResult Delete(int id)
+        {
+            var category = _context.Categories.Find(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // ================= CHỈNH SỬA (EDIT) =================
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var category = _context.Categories.Find(id);
+            if (category == null) return NotFound();
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category model)
+        {
+            _context.Categories.Update(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
