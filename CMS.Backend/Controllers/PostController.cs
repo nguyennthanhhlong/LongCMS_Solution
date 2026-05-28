@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CMS.Data.Entities;
 using CMS.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CMS.Backend.Controllers
 {
@@ -59,6 +60,97 @@ namespace CMS.Backend.Controllers
             }
 
             return View(post);
+        }
+
+        // ================= THÊM MỚI BÀI VIẾT =================
+        [HttpGet]
+        public IActionResult Create()
+        {
+            // Truyền danh sách Category sang View để làm thẻ <select>
+            ViewBag.CategoryList = new SelectList(_context.Categories, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Post model, IFormFile uploadImage)
+        {
+            if (uploadImage != null && uploadImage.Length > 0)
+            {
+                string folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadImage.FileName);
+                string filePath = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    uploadImage.CopyTo(stream);
+                }
+                model.ImageUrl = "/uploads/" + fileName;
+            }
+
+            // Gán ngày hiện tại nếu rỗng
+            if (model.CreatedDate == default(DateTime)) model.CreatedDate = DateTime.Now;
+
+            _context.Posts.Add(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // ================= XÓA BÀI VIẾT =================
+        public IActionResult Delete(int id)
+        {
+            var post = _context.Posts.Find(id);
+            if (post != null)
+            {
+                _context.Posts.Remove(post);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // ================= SỬA BÀI VIẾT =================
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var post = _context.Posts.Find(id);
+            if (post == null) return NotFound();
+
+            // Truyền dữ liệu danh mục, mặc định chọn đúng danh mục hiện tại của bài viết
+            ViewBag.CategoryList = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Post model, IFormFile uploadImage)
+        {
+            if (uploadImage != null && uploadImage.Length > 0)
+            {
+                string folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadImage.FileName);
+                string filePath = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    uploadImage.CopyTo(stream);
+                }
+                model.ImageUrl = "/uploads/" + fileName;
+            }
+            else
+            {
+                // Nếu không upload ảnh mới, giữ nguyên đường dẫn ảnh cũ
+                var oldPost = _context.Posts.AsNoTracking().FirstOrDefault(p => p.Id == model.Id);
+                if (oldPost != null && string.IsNullOrEmpty(model.ImageUrl))
+                {
+                    model.ImageUrl = oldPost.ImageUrl;
+                }
+            }
+
+            _context.Posts.Update(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

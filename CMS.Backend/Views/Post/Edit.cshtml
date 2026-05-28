@@ -1,0 +1,62 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+ 
+@model CMS.Data.Entities.Post
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Sửa bài viết";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0"><i class="bi bi-pencil"></i> CHỈNH SỬA BÀI VIẾT</h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageUrl" />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tiêu đề bài viết:</label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nội dung:</label>
+                        <textarea asp-for="Content" class="form-control" rows="15"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Danh mục:</label>
+                        <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryList"></select>
+                    </div>
+                    <div class="mb-3 text-center">
+                        <label class="form-label fw-bold text-start w-100">Ảnh hiện tại:</label>
+                        <img src="@Model.ImageUrl" style="width: 150px; height: 100px; object-fit: cover;" class="rounded border mb-2" />
+                        <input type="file" name="uploadImage" class="form-control" accept="image/*" />
+                        <small class="text-muted">Chỉ chọn ảnh nếu muốn thay đổi.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ngày đăng:</label>
+                        <input asp-for="CreatedDate" type="date" class="form-control" />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning w-100 mb-2">Cập nhật thay đổi</button>
+                    <a asp-action="Index" class="btn btn-secondary w-100">Quay lại</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#Content')).catch(error => { console.error(error); });
+    </script>
+}

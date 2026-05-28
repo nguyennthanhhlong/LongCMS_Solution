@@ -1,0 +1,53 @@
+ @* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 *@
+
+@model CMS.Data.Entities.User
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Cập nhật thành viên";
+}
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> CẬP NHẬT THÔNG TIN THÀNH VIÊN</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Tên đăng nhập:</label>
+                        <input asp-for="Username" class="form-control bg-light" readonly />
+                        <small class="text-muted">Tên đăng nhập không được phép sửa.</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Mật khẩu mới:</label>
+                        <input type="password" name="NewPassword" class="form-control" placeholder="Để trống nếu không muốn đổi" />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Họ và Tên:</label>
+                        <input asp-for="FullName" class="form-control" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Vai trò:</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-warning"><i class="bi bi-check2-circle"></i> Cập nhật thay đổi</button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

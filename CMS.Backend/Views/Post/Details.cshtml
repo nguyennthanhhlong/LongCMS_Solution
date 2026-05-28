@@ -5,6 +5,11 @@
 
 @model CMS.Data.Entities.Post
 
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Chi tiết bài viết";
+}
+
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header bg-white">
@@ -24,7 +29,7 @@
             </div>
             
             <div class="content text-justify" style="font-size: 1.1rem; line-height: 1.8;">
-                @Model.Content
+                @Html.Raw(Model.Content)
             </div>
         </div>
         
