@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using CMS.Data;
+using CMS.Data.Entities;
 using System.Linq;
 
 namespace CMS.Backend.Controllers

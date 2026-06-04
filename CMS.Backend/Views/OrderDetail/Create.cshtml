@@ -1,0 +1,49 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.OrderDetail
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Thêm chi tiết sản phẩm"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-bag-plus"></i> BỔ SUNG SẢN PHẨM VÀO ĐƠN HÀNG</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Thuộc Mã Đơn Hàng số (ID):</label>
+                        <select asp-for="OrderId" asp-items="ViewBag.OrderList" class="form-select" required>
+                            <option value="">-- Chọn mã đơn hàng cần thêm --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Chọn Sản phẩm bổ sung:</label>
+                        <select asp-for="ProductId" asp-items="ViewBag.ProductList" class="form-select" required>
+                            <option value="">-- Chọn mặt hàng quần áo/phụ kiện --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Số lượng mua:</label>
+                        <input asp-for="Quantity" type="number" class="form-control" value="1" min="1" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Đơn giá chốt bán (VNĐ):</label>
+                        <input asp-for="UnitPrice" type="number" class="form-control" placeholder="Nhập giá tiền tại thời điểm chốt..." min="0" required />
+                    </div>
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Ghi nhận mặt hàng</button> 
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

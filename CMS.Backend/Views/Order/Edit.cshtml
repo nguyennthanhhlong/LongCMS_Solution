@@ -1,0 +1,50 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.Order
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Cập nhật trạng thái đơn hàng"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> XỬ LÝ TRẠNG THÁI ĐƠN HÀNG HỆ THỐNG</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Tên Khách hàng đặt mua:</label>
+                        <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerList" required></select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Điều chỉnh Trạng thái Đơn:</label>
+                        <select asp-for="Status" class="form-select" style="font-weight: bold;">
+                            <option value="0" class="text-warning">Chờ duyệt</option>
+                            <option value="1" class="text-primary">Đang giao hàng</option>
+                            <option value="2" class="text-success">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Thời gian lập đơn:</label>
+                    <input asp-for="OrderDate" type="datetime-local" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Ghi chú giao nhận:</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-warning"><i class="bi bi-check2-circle"></i> Cập nhật Đơn hàng</button> 
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </form>
+        </div>
+    </div>
+</div>

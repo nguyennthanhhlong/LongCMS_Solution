@@ -1,0 +1,52 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.Customer
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Cập nhật Khách hàng"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> CẬP NHẬT THÔNG TIN KHÁCH HÀNG</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Họ và tên khách hàng:</label>
+                        <input asp-for="FullName" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Địa chỉ Email:</label>
+                        <input asp-for="Email" type="email" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Số điện thoại:</label>
+                        <input asp-for="Phone" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Mật khẩu (Ghi đè nếu đổi):</label>
+                        <input asp-for="Password" type="password" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Địa chỉ thường trú:</label>
+                    <input asp-for="Address" class="form-control" />
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-warning"><i class="bi bi-check2-circle"></i> Xác nhận cập nhật</button> 
+                <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+            </form>
+        </div>
+    </div>
+</div>

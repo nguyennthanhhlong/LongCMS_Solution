@@ -1,0 +1,50 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.Order
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Tạo đơn hàng mới"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-cart-plus"></i> KHỞI TẠO ĐƠN HÀNG THỦ CÔNG</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Chọn Khách hàng đặt mua:</label>
+                        <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerList" required>
+                            <option value="">-- Chọn khách hàng hệ thống --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Trạng thái khởi tạo:</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="0" selected>Chờ duyệt (Mặc định)</option>
+                            <option value="1">Đang giao hàng</option>
+                            <option value="2">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Thời gian lập đơn:</label>
+                    <input asp-for="OrderDate" type="datetime-local" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Ghi chú giao nhận:</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Nhập yêu cầu giao hàng, địa chỉ phụ nếu có..."></textarea>
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Khởi tạo đơn</button> 
+                <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.OrderDetail
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Điều chỉnh mặt hàng đơn"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> ĐIỀU CHỈNH SỐ LƯỢNG & ĐƠN GIÁ CHỐT</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Thuộc Mã Đơn Hàng số:</label>
+                        <select asp-for="OrderId" asp-items="ViewBag.OrderList" class="form-select" required></select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Mặt hàng chốt mua:</label>
+                        <select asp-for="ProductId" asp-items="ViewBag.ProductList" class="form-select" required></select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Điều chỉnh Số lượng:</label>
+                        <input asp-for="Quantity" type="number" class="form-control" min="1" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Điều chỉnh Đơn giá chốt (VNĐ):</label>
+                        <input asp-for="UnitPrice" type="number" class="form-control" required />
+                    </div>
+                </div>
+
+                <hr />
+                <button type="submit" class="btn btn-warning"><i class="bi bi-check2-circle"></i> Cập nhật chi tiết</button> 
+                <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+            </form>
+        </div>
+    </div>
+</div>

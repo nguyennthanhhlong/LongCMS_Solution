@@ -1,0 +1,57 @@
+@* * Sinh vien: Nguyen Thanh Long
+ * Ma so: 2123110003
+ * Ngay tao: 28-05-2026
+ * Version: 1.0 
+ *@
+
+@model CMS.Data.Entities.Product
+@{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Thêm sản phẩm mới"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-box-seam"></i> THÊM SẢN PHẨM MỚI</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên sản phẩm:</label>
+                            <input asp-for="Name" class="form-control" required placeholder="Nhập tên sản phẩm..." />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mô tả sản phẩm:</label>
+                            <textarea asp-for="Description" class="form-control" rows="8" placeholder="Nhập chất liệu, thông số kĩ thuật..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Danh mục thuộc về:</label>
+                            <select asp-for="CategoryProductId" class="form-select" asp-items="ViewBag.CategoryProductList" required>
+                                <option value="">-- Chọn danh mục sản phẩm --</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Giá bán (VNĐ):</label>
+                            <input asp-for="Price" type="number" class="form-control" required min="0" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Số lượng nhập kho:</label>
+                            <input asp-for="StockQuantity" type="number" class="form-control" required min="0" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tải lên hình ảnh:</label>
+                            <input type="file" name="uploadImage" class="form-control" accept="image/*" />
+                        </div>
+                        
+                        <hr />
+                        <button type="submit" class="btn btn-success w-100 mb-2"><i class="bi bi-save"></i> Lưu vào hệ thống</button>
+                        <a asp-action="Index" class="btn btn-secondary w-100">Hủy bỏ</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -42,7 +42,7 @@ app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ThaiCMS Web API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ThanhLongCMS Web API v1");
     c.RoutePrefix = "swagger"; // Đường dẫn truy cập: /swagger
 });
 
