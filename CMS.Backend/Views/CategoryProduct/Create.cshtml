@@ -8,25 +8,33 @@
 @model CMS.Data.Entities.CategoryProduct
 @{ Layout = "_LayoutAdmin"; ViewData["Title"] = "Thêm Danh Mục Sản Phẩm"; }
 
-<div class="container mt-4">
-    <div class="card shadow border-0">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0"><i class="bi bi-plus-circle"></i> THÊM DANH MỤC SẢN PHẨM</h5>
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold m-0 text-dark"><i class="bi bi-plus-square text-primary me-2"></i>THÊM DANH MỤC MỚI</h3>
+            <a asp-action="Index" class="btn btn-light rounded-pill px-4 shadow-sm border">
+                <i class="bi bi-arrow-left me-1"></i> Quay lại
+            </a>
         </div>
-        <div class="card-body">
-            <form asp-action="Create" method="post">
+
+        <div class="card">
+            <div class="card-body p-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tên danh mục:</label>
                     <input asp-for="Name" class="form-control" required placeholder="Nhập tên (VD: Áo Sơ Mi Nam)..." />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Hình ảnh đại diện:</label>
+                    <input type="file" name="uploadImage" class="form-control" accept="image/*" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Mô tả chi tiết:</label>
                     <textarea asp-for="Description" class="form-control" rows="4" placeholder="Nhập mô tả..."></textarea>
                 </div>
                 
-                <hr />
-                <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Lưu vào hệ thống</button>
-                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                <hr class="my-4" />
+                <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm"><i class="bi bi-save me-1"></i> Lưu danh mục</button>
             </form>
         </div>
     </div>

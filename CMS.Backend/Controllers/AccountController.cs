@@ -37,8 +37,10 @@ namespace CMS.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
-            // Kiểm tra tài khoản trong Database
-            var user = _context.Users.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+            string hashedInput = CMS.Backend.Helpers.PasswordHelper.HashPassword(password);
+
+            // Kiểm tra tài khoản: cho phép cả mật khẩu đã hash hoặc mật khẩu cũ chưa hash
+            var user = _context.Users.FirstOrDefault(u => u.Username == username && (u.PasswordHash == hashedInput || u.PasswordHash == password));
 
             if (user != null)
             {

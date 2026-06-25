@@ -26,10 +26,16 @@ namespace CMS.Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 12)
         {
-            var posts = await _context.Posts
+            var query = _context.Posts.AsQueryable();
+            int totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var posts = await query
                 .OrderByDescending(p => p.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(p => new
                 {
                     p.Id,
@@ -40,14 +46,20 @@ namespace CMS.Backend.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(posts);
+            return Ok(new { data = posts, totalItems, totalPages, currentPage = page });
         }
 
         [HttpGet("category/{categoryId}")]
-        public async Task<IActionResult> GetByCategory(int categoryId)
+        public async Task<IActionResult> GetByCategory(int categoryId, [FromQuery] int page = 1, [FromQuery] int pageSize = 12)
         {
-            var posts = await _context.Posts
-                .Where(p => p.CategoryId == categoryId)
+            var query = _context.Posts.Where(p => p.CategoryId == categoryId);
+            int totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var posts = await query
+                .OrderByDescending(p => p.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(p => new
                 {
                     p.Id,
@@ -57,20 +69,29 @@ namespace CMS.Backend.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(posts);
+            return Ok(new { data = posts, totalItems, totalPages, currentPage = page });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetail(int id)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            var post = await _context.Posts.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
 
             if (post == null)
             {
                 return NotFound(new { message = "Không tìm thấy bài viết này trong hệ thống" });
             }
 
-            return Ok(post);
+            return Ok(new
+            {
+                post.Id,
+                post.Title,
+                post.Content,
+                post.ImageUrl,
+                post.CreatedDate,
+                post.CategoryId,
+                Category = post.Category != null ? new { Name = post.Category.Name } : null
+            });
         }
     }
 }

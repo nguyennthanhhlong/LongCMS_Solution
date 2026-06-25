@@ -1,0 +1,75 @@
+@model IEnumerable<CMS.Data.Entities.Advertisement>
+
+@{
+    ViewData["Title"] = "Quản lý Quảng cáo / Banner";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold m-0 text-dark"><i class="bi bi-images text-primary me-2"></i>QUẢN LÝ QUẢNG CÁO / BANNER</h3>
+    <a href="/Advertisement/Create" class="btn btn-primary shadow-sm rounded-pill px-4">
+        <i class="bi bi-plus-lg me-1"></i> Thêm mới
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="border-0">ID</th>
+                        <th class="border-0 text-center">Hình ảnh</th>
+                        <th class="border-0">Tiêu đề</th>
+                        <th class="border-0">Link</th>
+                        <th class="border-0 text-center">Trạng thái</th>
+                        <th class="border-0 text-center">Thứ tự</th>
+                        <th class="border-0 text-center" style="width: 150px;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img src="@item.ImageUrl" style="max-height: 50px; border-radius: 0.5rem; object-fit: cover;" class="shadow-sm" />
+                                }
+                            </td>
+                            <td class="fw-bold text-primary">@item.Title</td>
+                            <td><a href="@item.Link" target="_blank" class="text-decoration-none">@item.Link</a></td>
+                            <td class="text-center">
+                                @if (item.IsActive) {
+                                    <span class="badge bg-success">Hiển thị</span>
+                                } else {
+                                    <span class="badge bg-secondary">Ẩn</span>
+                                }
+                            </td>
+                            <td class="text-center">@item.SortOrder</td>
+                            <td class="text-center">
+                                <a href="/Advertisement/Edit/@item.Id" class="btn btn-sm btn-light text-primary rounded-circle" data-bs-toggle="tooltip" title="Sửa"><i class="bi bi-pencil-square"></i></a>
+                                <a href="/Advertisement/Delete/@item.Id" class="btn btn-sm btn-light text-danger rounded-circle ms-1" onclick="return confirm('Bạn có chắc chắn muốn xóa?');" data-bs-toggle="tooltip" title="Xóa"><i class="bi bi-trash3"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Phân trang -->
+            @if (ViewBag.TotalPages > 1)
+            {
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="/Advertisement/Index?page=@i">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>

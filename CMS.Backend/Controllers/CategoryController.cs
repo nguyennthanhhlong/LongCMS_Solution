@@ -24,10 +24,20 @@ namespace CMS.Backend.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            // Lấy toàn bộ dữ liệu từ bảng Categories trong SQL Docker
-            var data = _context.Categories.ToList();
+            int pageSize = 10;
+            var query = _context.Categories;
+            int totalItems = query.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var data = query.OrderByDescending(c => c.Id)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+            
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
             return View(data);
         }
 
@@ -52,6 +62,14 @@ namespace CMS.Backend.Controllers
             var category = _context.Categories.Find(id);
             if (category != null)
             {
+                // Kiểm tra xem chuyên mục này có đang chứa bài viết nào không
+                var hasPosts = _context.Posts.Any(p => p.CategoryId == id);
+                if (hasPosts)
+                {
+                    TempData["Error"] = "Không thể xóa chuyên mục này vì đang có bài viết thuộc chuyên mục!";
+                    return RedirectToAction("Index");
+                }
+
                 _context.Categories.Remove(category);
                 _context.SaveChanges();
             }

@@ -28,9 +28,20 @@ namespace CMS.Backend.Controllers
         }
 
         // ================= 1. DANH SÁCH SẢN PHẨM =================
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var data = _context.Products.Include(p => p.CategoryProduct).ToList();
+            int pageSize = 10;
+            var query = _context.Products.Include(p => p.CategoryProduct);
+            int totalItems = query.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var data = query.OrderByDescending(p => p.Id)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
             return View(data);
         }
 

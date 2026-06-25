@@ -47,3 +47,20 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#ProductId').change(function () {
+                var productId = $(this).val();
+                if (productId) {
+                    $.get('/OrderDetail/GetProductPrice/' + productId, function (data) {
+                        $('#UnitPrice').val(data);
+                    });
+                } else {
+                    $('#UnitPrice').val('');
+                }
+            });
+        });
+    </script>
+}

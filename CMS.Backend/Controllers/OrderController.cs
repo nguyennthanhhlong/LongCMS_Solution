@@ -26,13 +26,20 @@ namespace CMS.Backend.Controllers
         }
 
         // ================= 1. DANH SÁCH ĐƠN HÀNG =================
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            // Dùng .Include(o => o.Customer) để lấy thông tin Tên khách hàng từ bảng Customers
-            var data = _context.Orders
-                .Include(o => o.Customer)
-                .OrderByDescending(o => o.OrderDate)
-                .ToList();
+            int pageSize = 10;
+            var query = _context.Orders.Include(o => o.Customer);
+            int totalItems = query.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var data = query.OrderByDescending(o => o.OrderDate)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
             return View(data);
         }
 
@@ -79,6 +86,13 @@ namespace CMS.Backend.Controllers
             var order = _context.Orders.Find(id);
             if (order != null)
             {
+                // Xóa toàn bộ chi tiết đơn hàng trước khi xóa đơn hàng (Cascade delete)
+                var details = _context.OrderDetails.Where(od => od.OrderId == id).ToList();
+                if (details.Any())
+                {
+                    _context.OrderDetails.RemoveRange(details);
+                }
+
                 _context.Orders.Remove(order);
                 _context.SaveChanges();
             }

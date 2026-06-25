@@ -42,12 +42,20 @@ namespace CMS.Backend.Controllers
         [HttpPost]
         public IActionResult Create(User model)
         {
+            if (!ModelState.IsValid) return View(model);
+
             // Kiểm tra xem tên đăng nhập đã tồn tại chưa
             var checkExist = _context.Users.Any(u => u.Username == model.Username);
             if (checkExist)
             {
                 ModelState.AddModelError("Username", "Tên đăng nhập này đã có người dùng!");
                 return View(model);
+            }
+
+            // Hash password
+            if (!string.IsNullOrEmpty(model.PasswordHash))
+            {
+                model.PasswordHash = CMS.Backend.Helpers.PasswordHelper.HashPassword(model.PasswordHash);
             }
 
             _context.Users.Add(model);
@@ -66,8 +74,11 @@ namespace CMS.Backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(User model, string NewPassword)
+        public IActionResult Edit(User model, string? NewPassword)
         {
+            ModelState.Remove("PasswordHash"); // Form Edit không gửi PasswordHash
+            if (!ModelState.IsValid) return View(model);
+
             // Tìm User gốc trong Database (dùng AsNoTracking để đọc độc lập)
             var existingUser = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == model.Id);
             if (existingUser == null) return NotFound();
@@ -75,7 +86,7 @@ namespace CMS.Backend.Controllers
             // Xử lý mật khẩu
             if (!string.IsNullOrEmpty(NewPassword))
             {
-                model.PasswordHash = NewPassword;
+                model.PasswordHash = CMS.Backend.Helpers.PasswordHelper.HashPassword(NewPassword);
             }
             else
             {
@@ -94,6 +105,12 @@ namespace CMS.Backend.Controllers
             var user = _context.Users.Find(id);
             if (user != null)
             {
+                if (user.Username == User.Identity.Name)
+                {
+                    TempData["Error"] = "Không thể xóa tài khoản của chính bạn đang đăng nhập!";
+                    return RedirectToAction("Index");
+                }
+
                 _context.Users.Remove(user);
                 _context.SaveChanges();
             }

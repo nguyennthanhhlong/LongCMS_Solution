@@ -35,7 +35,8 @@ namespace CMS.Backend.Controllers
                 {
                     c.Id,
                     c.Name,
-                    c.Description
+                    c.Description,
+                    c.ImageUrl
                 })
                 .ToListAsync();
 

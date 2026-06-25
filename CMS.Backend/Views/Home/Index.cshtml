@@ -1,41 +1,49 @@
-﻿ @* * Sinh vien: Nguyen Thanh Long
+@* * Sinh vien: Nguyen Thanh Long
  * Ma so: 2123110003
  * Ngay tao: 28-05-2026
  * Version: 1.0 *@
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Bảng điều khiển";
     Layout = "_LayoutAdmin";
 }
 
-
 @model IEnumerable<CMS.Data.Entities.Post>
+    
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4 text-danger fw-bold">TIN TỨC MỚI NHẤT</h2>
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100 border-0 bg-light">
-                    <img src="@item.ImageUrl" class="card-img-top rounded-top" alt="Thumbnail" style="height: 220px; object-fit: cover;">
-                    
-                    <div class="card-body">
-                        <span class="badge bg-primary mb-2 fs-6">
-                            @(item.Category != null ? item.Category.Name : "Khác")
-                        </span>
-                        <h5 class="card-title fw-bold text-dark mt-2">@item.Title</h5>
-                        <p class="card-text text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                            @Html.Raw(item.Content)
-                        </p>
-                        <a href="/Post/Details/@item.Id" class="btn btn-outline-danger btn-sm mt-2">Đọc tiếp -></a>
-                    </div>
-                    
-                    <div class="card-footer bg-transparent border-top-0 text-muted small pb-3 pt-0">
-                        <i class="bi bi-calendar3"></i> Ngày đăng: @item.CreatedDate.ToString("dd/MM/yyyy")
+<!-- Recent Posts Section -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center bg-white border-0 pt-4 px-4">
+        <h5 class="fw-bold m-0"><i class="bi bi-clock-history me-2 text-primary"></i>Hoạt động gần đây (Tin tức)</h5>
+        <a asp-controller="Post" asp-action="Index" class="btn btn-sm btn-outline-primary rounded-pill">Xem tất cả</a>
+    </div>
+    <div class="card-body px-4">
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card shadow-none border h-100">
+                        <div class="position-relative">
+                            <img src="@item.ImageUrl" class="card-img-top" alt="Thumbnail" style="height: 180px; object-fit: cover; border-radius: 1rem 1rem 0 0;">
+                            <span class="badge bg-dark position-absolute top-0 end-0 m-2 rounded-pill px-3 py-2 opacity-75">
+                                @(item.Category != null ? item.Category.Name : "Khác")
+                            </span>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h6 class="fw-bold text-dark mb-2">@item.Title</h6>
+                            <p class="text-muted small mb-0" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                @Html.Raw(item.Content)
+                            </p>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-top-0 pt-0 d-flex justify-content-between align-items-center">
+                            <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> @item.CreatedDate.ToString("dd/MM/yyyy")</span>
+                            <a href="/Post/Details/@item.Id" class="text-primary fw-medium small text-decoration-none">Đọc tiếp <i class="bi bi-arrow-right"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>

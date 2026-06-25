@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using CMS.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DotNetEnv;
 
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // ==============================================================
@@ -11,6 +13,8 @@ builder.Services.AddControllersWithViews(); // Hỗ trợ cả MVC (View) và We
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<CMS.Backend.Services.IEmailService, CMS.Backend.Services.EmailService>();
 
 // Kích hoạt bộ sinh tài liệu API (Swagger)
 builder.Services.AddEndpointsApiExplorer();

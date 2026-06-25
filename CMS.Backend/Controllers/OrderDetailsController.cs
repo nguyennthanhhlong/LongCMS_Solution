@@ -37,6 +37,7 @@ namespace CMS.Backend.Controllers
                     od.Id,
                     od.ProductId,
                     ProductName = od.Product.Name,
+                    ImageUrl = od.Product.ImageUrl,
                     od.Quantity,
                     od.UnitPrice,
                     Total = od.Quantity * od.UnitPrice

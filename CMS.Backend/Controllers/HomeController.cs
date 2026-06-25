@@ -28,11 +28,15 @@ namespace CMS.Backend.Controllers
 
         public IActionResult Index()
         {
-            // LINQ: Lấy 3 bài viết mới nhất
+            ViewBag.TotalProducts = _context.Products.Count();
+            ViewBag.TotalOrders = _context.Orders.Count();
+            ViewBag.TotalCustomers = _context.Customers.Count();
+            
+            // Lấy 3 bài viết mới nhất
             var latestPosts = _context.Posts
-                .Include(p => p.Category)               // Lấy kèm tên danh mục
-                .OrderByDescending(p => p.CreatedDate)  // Sắp xếp ngày mới nhất lên đầu
-                .Take(3)                                // Chỉ lấy đúng 3 bản tin đầu tiên
+                .Include(p => p.Category)
+                .OrderByDescending(p => p.CreatedDate)
+                .Take(3)
                 .ToList();
 
             return View(latestPosts);

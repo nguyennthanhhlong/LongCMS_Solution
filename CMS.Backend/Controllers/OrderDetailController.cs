@@ -26,13 +26,20 @@ namespace CMS.Backend.Controllers
         }
 
         // ================= 1. DANH SÁCH CHI TIẾT ĐƠN HÀNG =================
-        public IActionResult Index()
+        public IActionResult Index(int? orderId)
         {
-            // Dùng .Include để kéo thông tin Mã Đơn Hàng và Tên Sản Phẩm đi kèm nhằm hiển thị ngoài Grid
-            var data = _context.OrderDetails
+            var query = _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .ToList();
+                .AsQueryable();
+
+            if (orderId.HasValue)
+            {
+                query = query.Where(od => od.OrderId == orderId.Value);
+                ViewBag.OrderId = orderId.Value;
+            }
+
+            var data = query.ToList();
             return View(data);
         }
 
@@ -49,6 +56,13 @@ namespace CMS.Backend.Controllers
         [HttpPost]
         public IActionResult Create(OrderDetail model)
         {
+            var product = _context.Products.Find(model.ProductId);
+            if (product != null)
+            {
+                product.StockQuantity -= model.Quantity;
+                if (product.StockQuantity < 0) product.StockQuantity = 0;
+            }
+
             _context.OrderDetails.Add(model);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -69,6 +83,30 @@ namespace CMS.Backend.Controllers
         [HttpPost]
         public IActionResult Edit(OrderDetail model)
         {
+            var existingDetail = _context.OrderDetails.AsNoTracking().FirstOrDefault(od => od.Id == model.Id);
+            if (existingDetail != null)
+            {
+                var product = _context.Products.Find(model.ProductId);
+                if (product != null)
+                {
+                    // Nếu sửa sản phẩm khác, thì hoàn số lượng cho sản phẩm cũ và trừ số lượng sản phẩm mới
+                    if (existingDetail.ProductId != model.ProductId)
+                    {
+                        var oldProduct = _context.Products.Find(existingDetail.ProductId);
+                        if (oldProduct != null) oldProduct.StockQuantity += existingDetail.Quantity;
+                        
+                        product.StockQuantity -= model.Quantity;
+                    }
+                    else
+                    {
+                        // Nếu cùng sản phẩm, chỉ tính chênh lệch
+                        int diff = model.Quantity - existingDetail.Quantity;
+                        product.StockQuantity -= diff;
+                    }
+                    if (product.StockQuantity < 0) product.StockQuantity = 0;
+                }
+            }
+
             _context.OrderDetails.Update(model);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -80,10 +118,28 @@ namespace CMS.Backend.Controllers
             var detail = _context.OrderDetails.Find(id);
             if (detail != null)
             {
+                var product = _context.Products.Find(detail.ProductId);
+                if (product != null)
+                {
+                    product.StockQuantity += detail.Quantity;
+                }
+
                 _context.OrderDetails.Remove(detail);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        // ================= 5. LẤY GIÁ SẢN PHẨM HIỆN TẠI =================
+        [HttpGet]
+        public IActionResult GetProductPrice(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product != null)
+            {
+                return Json(product.Price);
+            }
+            return Json(0);
         }
     }
 }

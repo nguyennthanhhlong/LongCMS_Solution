@@ -26,24 +26,29 @@ namespace CMS.Backend.Controllers
         }
 
         // GET: /Post/Index hoặc /Post/Index/5
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, int page = 1)
         {
-            // Nếu không có ID truyền vào, lấy tất cả bài viết
-            if (id == null)
+            int pageSize = 6;
+            var query = _context.Posts.AsQueryable();
+
+            if (id != null)
             {
-                var allPosts = _context.Posts
-                    .Include(p => p.Category)
-                    .OrderByDescending(p => p.CreatedDate)
-                    .ToList();
-                return View(allPosts);
+                query = query.Where(p => p.CategoryId == id);
             }
 
-            // Nếu có ID, dùng LINQ để lọc và sắp xếp
-            var posts = _context.Posts
-                .Where(p => p.CategoryId == id)
-                .OrderByDescending(p => p.CreatedDate)
+            int totalItems = query.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var posts = query
                 .Include(p => p.Category)
+                .OrderByDescending(p => p.CreatedDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CategoryId = id;
 
             return View(posts);
         }
@@ -153,6 +158,40 @@ namespace CMS.Backend.Controllers
             _context.Posts.Update(model);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // ================= UPLOAD ẢNH TỪ CKEDITOR =================
+        [HttpPost("Post/UploadImage")]
+        [AllowAnonymous] // Cho phép upload từ CKEditor mà không bắt lỗi Authorization tùy cấu hình
+        public IActionResult UploadImage(IFormFile upload)
+        {
+            if (upload != null && upload.Length > 0)
+            {
+                string folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(upload.FileName);
+                string filePath = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    upload.CopyTo(stream);
+                }
+
+                // Trả về JSON theo định dạng chuẩn của CKEditor 5
+                return Json(new
+                {
+                    uploaded = 1,
+                    fileName = fileName,
+                    url = "/uploads/" + fileName
+                });
+            }
+
+            return Json(new
+            {
+                uploaded = 0,
+                error = new { message = "Không thể tải ảnh lên" }
+            });
         }
     }
 }
